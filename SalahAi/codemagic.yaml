@@ -1,0 +1,31 @@
+workflows:
+  android-workflow:
+    name: Android Workflow
+    max_build_duration: 120
+    environment:
+      vars:
+        PACKAGE_NAME: "com.salahtech.salahAi"
+    triggering:
+      events:
+        - push
+        - pull_request
+    scripts:
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+      - name: Build Debug APK
+        script: |
+          gradle assembleDebug
+      - name: Build Release APK
+        script: |
+          gradle assembleRelease
+    artifacts:
+      - app/build/outputs/apk/debug/app-debug.apk
+      - app/build/outputs/apk/release/app-release.apk
+    publishing:
+      email:
+        recipients:
+          - user@example.com
+        notify:
+          success: true
+          failure: true
