@@ -46,8 +46,9 @@ workflows:
     publishing:
       email:
         recipients:
-          - mohd.y.salah@gmail.com # Remember to change this to a real email!
+          - user@example.com # Remember to change this to a real email!
         notify:
           success: true
           failure: true
+
 
