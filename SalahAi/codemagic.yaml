@@ -10,22 +10,44 @@ workflows:
         - push
         - pull_request
     scripts:
-      - name: Set Android SDK location
+      # --- Add Flutter setup steps ---
+      - name: Set Flutter version
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+          flutter sdk use stable # Or 'beta', 'dev' if you use a specific channel
+      - name: Get Flutter dependencies
+        script: |
+          flutter pub get
+
+      # --- Remove the 'local.properties' step unless absolutely necessary ---
+      # For most Flutter projects, Codemagic handles SDK paths automatically.
+      # - name: Set Android SDK location
+      #   script: |
+      #     echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
+      # --- Modify these to use 'flutter build' ---
       - name: Build Debug APK
         script: |
-          gradle assembleDebug
-      - name: Build Release APK
+          flutter build apk --debug
+
+      - name: Build Release APK # This will build an App Bundle by default for release
         script: |
-          gradle assembleRelease
+          flutter build appbundle
+          # If you specifically need a release APK instead of an App Bundle:
+          # flutter build apk --release
+
     artifacts:
-      - app/build/outputs/apk/debug/app-debug.apk
-      - app/build/outputs/apk/release/app-release.apk
+      # --- Update artifact paths for Flutter builds ---
+      # Flutter builds place artifacts in build/app/outputs/flutter-apk/
+      - build/app/outputs/flutter-apk/app-debug.apk
+      - build/app/outputs/bundle/release/app-release.aab # For App Bundle
+      # If you built a release APK:
+      # - build/app/outputs/flutter-apk/app-release.apk
+
     publishing:
       email:
         recipients:
-          - user@example.com
+          - mohd.y.salah@gmail.com # Remember to change this to a real email!
         notify:
           success: true
           failure: true
+
