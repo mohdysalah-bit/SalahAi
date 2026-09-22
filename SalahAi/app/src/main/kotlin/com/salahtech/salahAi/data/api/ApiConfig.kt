@@ -1,7 +1,6 @@
 package com.salahtech.salahAi.data.api
 
 import android.content.Context
-import androidx.datastore.preferences.preferencesDataStore
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,8 +10,6 @@ import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "https://aichatbot-atctaywz.manus.space/"
 private const val SESSION_COOKIE = "app_session_id"
-
-val Context.dataStore by preferencesDataStore(name = "salahAi_settings")
 
 object ApiConfig {
     fun createApiService(context: Context, sessionCookie: String? = null): ChatApiService {

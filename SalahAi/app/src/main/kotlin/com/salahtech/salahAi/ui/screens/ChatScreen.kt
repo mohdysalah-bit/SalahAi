@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.salahtech.salahAi.ui.components.MessageBubble
 import com.salahtech.salahAi.ui.components.TypingIndicator
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen() {
     var selectedConversationId by remember { mutableStateOf<Int?>(null) }
