@@ -31,13 +31,13 @@ jobs:
           export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/16.0/bin:$ANDROID_HOME/platform-tools:$PATH"
           sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
 
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
-        with:
-          gradle-version: '8.2.1'
+      - name: Install Gradle without cache service
+        run: |
+          curl -fsSL https://services.gradle.org/distributions/gradle-8.2.1-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp
 
       - name: Build debug APK
-        run: gradle --no-daemon assembleDebug
+        run: /tmp/gradle-8.2.1/bin/gradle --no-daemon assembleDebug
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
